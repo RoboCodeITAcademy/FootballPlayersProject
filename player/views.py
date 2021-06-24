@@ -5,9 +5,18 @@ from django.views.generic import (
 	UpdateView,
 	DetailView
 	)
+from django.views.generic.edit import CreateView
+from .forms import  AddPlayerForm
 from .models import Player
 from django.http import JsonResponse
 from django.urls import reverse
+
+class PC(CreateView):
+	model = Player
+	fields = '__all__'
+	# form_class = AddPlayerForm
+	template_name = 'player/player_create.html'
+	success_url = '/'
 
 # Create your views here.
 class PlayerListView(ListView):
@@ -17,7 +26,7 @@ class PlayerListView(ListView):
 
 class PlayerUpdateView(UpdateView):
 	model = Player
-	fields = ['age','height','weight','salary']
+	fields = '__all__'
 	# template_name = 'index.html'
 	success_url = '/'
 

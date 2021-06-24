@@ -8,6 +8,7 @@ urlpatterns = [
 	path('', views.PlayerListView.as_view(), name = 'players'),
 	path('update/<pk>', views.PlayerUpdateView.as_view(), name = 'update_player'),
 	path('detail/<pk>', views.PlayerDetailView.as_view(), name = 'detail_player'),
+	path('add/', views.PC.as_view(),name='add'),
 	
 	path('search/', views.searchPage, name='search'),
 	path('test/', views.searchPlayer, name='searchPlayer'),
