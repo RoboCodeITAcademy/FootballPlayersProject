@@ -36,25 +36,26 @@
 </nav>
 <div class="container">
   <div class="row">
+    {% for player in players %}
     <div class="col-md-6">
         <div class="card m-5 p-3">
           <div class="card-header">
-            <span class="name"></span>
+            <span class="name">{{player.name}}</span>
           </div>
-          <img src="" id="pImage" alt="" class="card-img-top">
+          <img src="{{player.image.url}}" id="pImage" alt="" class="card-img-top">
+          
           <div class="card-body">
-            Age :<span class="age"></span>
+            Name :<span class="age">{{player.name}}</span>
             <br>
-            Height :<span class="height"></span>
+            Height :<span class="height">{{player.height}}</span>
             <br>
-            Salary :<span class="salary"></span>
+            Salary :<span class="salary">{{player.salary}}</span>
             
           </div>
         </div>
     </div>
-    <div class="col-md-6" >
-   
-    </div>
+          {% endfor %}
+
   </div>
 
 </div>

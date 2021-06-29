@@ -2,21 +2,27 @@ from django.shortcuts import render, redirect
 from django.views.generic import (
 	TemplateView, 
 	ListView,
-	UpdateView,
-	DetailView
+	DetailView,
+	View
 	)
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import (
+	CreateView,
+	UpdateView,
+	DeleteView
+	)
+
+# 1. controller method
+# 2. controller class 
+# request => WSGIRequest = example
+
+
+
 from .forms import  AddPlayerForm
 from .models import Player
 from django.http import JsonResponse
 from django.urls import reverse
 
-class PC(CreateView):
-	model = Player
-	fields = '__all__'
-	# form_class = AddPlayerForm
-	template_name = 'player/player_create.html'
-	success_url = '/'
+
 
 # Create your views here.
 class PlayerListView(ListView):
@@ -24,11 +30,6 @@ class PlayerListView(ListView):
 	template_name = 'players_list.html'
 	context_object_name = 'players'
 
-class PlayerUpdateView(UpdateView):
-	model = Player
-	fields = '__all__'
-	# template_name = 'index.html'
-	success_url = '/'
 
 class PlayerDetailView(DetailView):
 	model = Player
@@ -36,7 +37,10 @@ class PlayerDetailView(DetailView):
 	# template_name = ''
 
 def searchPage(request):
-	return render(request, 'search.html')
+	query = request.GET.get('player_name', None)
+	print(query)
+	response = Player.objects.filter(name__icontains=query)
+	return render(request, 'search.html',{'players':response})
 
 def searchPlayer(request):
 	import json
@@ -51,3 +55,43 @@ def searchPlayer(request):
 		}	
 		return JsonResponse(response)
 	return JsonResponse({'ok':200})
+
+ 
+class PlayerListView(View):
+	
+	def get(self,request):
+		players = Player.objects.all()
+		# form = AddPlayerForm()
+		context = {
+			'players':players,
+			# 'form':form
+		}
+		return render(request, 'all.html', context)
+
+	def post(self):
+		form = AddPlayerForm(request.POST)
+		if form.is_valid():
+			form.save()
+		else:
+			form = AddPlayerForm()
+		context = {
+			'form':form
+		}
+		return render(request, 'all.html', context)
+
+
+
+
+class CreatePlayerView(CreateView):
+	model = Player
+	fields = '__all__'
+	success_url = '/'
+	# template_name = 'YOU TEMPLATE PATH'
+	# or 
+	# default-template = '<model_name/model_name_form.html>'
+
+class UpdatePlayerView(UpdateView):
+	model = Player
+	fields = '__all__'
+	success_url = '/'
+

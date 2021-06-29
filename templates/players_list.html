@@ -12,6 +12,7 @@
 	<nav class="navbar navbar-light bg-light">
   <div class="container-fluid">
     <span class="navbar-brand mb-0 h1">Players</span>
+    <a href="{% url 'player:add' %}" class="btn btn-primary">Add Player</a>
   </div>
 </nav>
 
@@ -44,16 +45,21 @@
 							</li>
 						</ul>
 							<div class="card-footer">
-							<a href="{% url 'player:update_player' player.id %}" class="btn btn-primary m-2">
+							<a 
+							href="{% url 'player:update_player' player.id %}" class="btn btn-primary m-2">
 								Update | {{player.name}}
 							</a>
-							<a href="{% url 'player:detail_player' player.id %}" class="btn btn-primary m-2">
+							<a href="" class="btn btn-primary m-2">
 								Detail | {{player.name}}
+							</a>
+							<a href="{% url 'player:delete' player.id %}" class="btn btn-primary m-2">
+								Delete | {{player.name}}
 							</a>
 						</div>
 					</div>
 				</div>
 			</div>
+	<!--  -->
 			{% endfor %}
 		</div>
 	</div>
